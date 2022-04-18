@@ -14,9 +14,19 @@ class GalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $galleries = Gallery::with('user', 'images')->orderBy('created_at', 'desc')->get();
+        $filter = $request->query('filter');
+        $query = Gallery::with('user', 'images');
+        if ($filter) {
+            $query = $query->where('name', 'like', "%$filter%")
+                ->orWhere('description', 'like', "%$filter%")
+                ->orWhereHas('user', function ($q) use ($filter) {
+                    $q->where('first_name', 'like', "%$filter%")
+                        ->orWhere('last_name', 'like', "%$filter%");
+                });
+        }
+        $galleries = $query->orderBy('created_at', 'desc')->paginate(10);
         return response()->json($galleries);
     }
 
@@ -36,6 +46,19 @@ class GalleryController extends Controller
         }
         $gallery->images;
         return response()->json($gallery);
+    }
+
+
+    public function myGalleries(Request $request)
+    {
+        $filter = $request->query('filter');
+        $query = Auth::user()->galleries()->with('user', 'images');
+
+        if ($filter) {
+            $query = $query->where('name', 'like', "%$filter%")->orWhere('description', 'like', "%$filter%")->orWhere("description", 'like', "%$filter%");
+        }
+        $galleries = $query->orderBy('created_at', 'desc')->paginate(10);
+        return response()->json($galleries);
     }
 
     /**
