@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,5 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('/create', [GalleryController::class, 'store']);
     Route::get('/my-galleries', [GalleryController::class, 'myGalleries']);
+    Route::get('/authors/{user_id}', [UserController::class, 'userGalleries']);
 });
