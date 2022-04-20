@@ -5,23 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Gallery extends Model
+class Comment extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'description',
+        'content',
+        'gallery_id',
+        'user_id',
     ];
-    public function images()
+    public function gallery()
     {
-        return $this->hasMany(Image::class)->orderBy('order');
+        return $this->belongsTo(Gallery::class);
     }
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
     }
 }

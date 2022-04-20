@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\UserController;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +25,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/galleries', [GalleryController::class, 'index']);
 
-
 Route::middleware('guest')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
@@ -36,4 +37,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/galleries/{gallery}', [GalleryController::class, 'show']);
     Route::post('/edit/{gallery}', [GalleryController::class, 'update']);
     Route::post('/delete/{gallery}', [GalleryController::class, 'destroy']);
+    Route::post('/comments/{gallery}', [CommentController::class, 'store']);
+    Route::post('/comments/delete/{comment}', [CommentController::class, 'destroy']);
 });
