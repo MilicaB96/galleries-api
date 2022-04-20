@@ -34,4 +34,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-galleries', [GalleryController::class, 'myGalleries']);
     Route::get('/authors/{user_id}', [UserController::class, 'userGalleries']);
     Route::get('/galleries/{gallery}', [GalleryController::class, 'show']);
+    Route::post('/edit/{gallery}', [GalleryController::class, 'update']);
 });

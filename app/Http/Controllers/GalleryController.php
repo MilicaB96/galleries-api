@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreGalleryRequest;
+use App\Http\Requests\UpdateGalleryRequest;
 use App\Models\Gallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,8 +40,11 @@ class GalleryController extends Controller
     public function store(StoreGalleryRequest $request)
     {
         $gallery = Auth::user()->galleries()->create($request->validated());
+        // ordering images by the order they are submited
         $order = 1;
-        foreach ($request->images as $image_url) {
+        foreach ($request->images as $images) {
+            $image_url = $images['image_url'];
+            // $order = $images['order'];
             $gallery->images()->create(compact('image_url', 'order'));
             $order++;
         }
@@ -80,9 +84,22 @@ class GalleryController extends Controller
      * @param  \App\Models\Gallery  $gallery
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Gallery $gallery)
+    public function update(UpdateGalleryRequest $request, Gallery $gallery)
     {
-        //
+        $gallery->update($request->validated());
+        if ($request->images) {
+            // ordering images by the order they are submited
+            $order = 1;
+            $gallery->images()->delete();
+            foreach ($request->images as $images) {
+                $image_url = $images['image_url'];
+                $gallery->images()->create(compact('image_url', 'order'));
+                $order++;
+            }
+            info($gallery->images()->get());
+        }
+        $gallery = $gallery->load('user', 'images');
+        return response()->json($gallery);
     }
 
     /**

@@ -14,7 +14,7 @@ class Gallery extends Model
     ];
     public function images()
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class)->orderBy('order');
     }
     public function user()
     {
