@@ -25,7 +25,7 @@ class StoreGalleryRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:255',
-            'description' => 'string|max:1000',
+            'description' => 'nullable|string|max:1000',
             'images' => 'required|array',
             'images.*.image_url' => 'required|url|ends_with:pdf,jpg,jpeg'
         ];

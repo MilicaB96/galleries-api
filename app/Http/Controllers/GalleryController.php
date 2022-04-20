@@ -110,6 +110,8 @@ class GalleryController extends Controller
      */
     public function destroy(Gallery $gallery)
     {
-        //
+        $gallery->delete();
+        $gallery->images()->delete();
+        return response(null, 204);
     }
 }
