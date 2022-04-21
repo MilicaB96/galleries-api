@@ -33,4 +33,8 @@ class AuthController extends Controller
         Auth::logout();
         return response(null, 204);
     }
+    public function myProfile()
+    {
+        return Auth::user();
+    }
 }

@@ -4,7 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\UserController;
-use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,4 +40,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/galleries/{gallery}', [GalleryController::class, 'destroy']);
     Route::post('/comments/{gallery}', [CommentController::class, 'store']);
     Route::delete('/comments/delete/{comment}', [CommentController::class, 'destroy']);
+    Route::get('/my-profile', [AuthController::class, 'myProfile']);
 });
