@@ -39,6 +39,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/galleries/{gallery}', [GalleryController::class, 'update']);
     Route::delete('/galleries/{gallery}', [GalleryController::class, 'destroy']);
     Route::post('/comments/{gallery}', [CommentController::class, 'store']);
-    Route::delete('/comments/delete/{comment}', [CommentController::class, 'destroy']);
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
     Route::get('/my-profile', [AuthController::class, 'myProfile']);
 });
