@@ -35,6 +35,7 @@ class StoreGalleryRequest extends FormRequest
         return [
             'images.*.image_url.ends_with' => 'Image must be of a pdf, jpg or jpeg format',
             'images.*.image_url.url' => 'Image must be a valid url',
+            'images.*.image_url.required' => 'Image field must not be empty',
         ];
     }
 }
