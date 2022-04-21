@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('image_url');
-            $table->integer('order');
             $table->foreignId('gallery_id')->constrained('galleries')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

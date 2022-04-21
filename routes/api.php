@@ -24,6 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/galleries', [GalleryController::class, 'index']);
+Route::get('/authors/{user_id}', [UserController::class, 'userGalleries']);
+Route::get('/galleries/{gallery}', [GalleryController::class, 'show']);
+
+
 
 Route::middleware('guest')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
@@ -31,12 +35,10 @@ Route::middleware('guest')->group(function () {
 });
 Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('/create', [GalleryController::class, 'store']);
+    Route::post('/galleries', [GalleryController::class, 'store']);
     Route::get('/my-galleries', [GalleryController::class, 'myGalleries']);
-    Route::get('/authors/{user_id}', [UserController::class, 'userGalleries']);
-    Route::get('/galleries/{gallery}', [GalleryController::class, 'show']);
-    Route::post('/edit/{gallery}', [GalleryController::class, 'update']);
-    Route::post('/delete/{gallery}', [GalleryController::class, 'destroy']);
+    Route::put('/galleries/{gallery}', [GalleryController::class, 'update']);
+    Route::delete('/galleries/{gallery}', [GalleryController::class, 'destroy']);
     Route::post('/comments/{gallery}', [CommentController::class, 'store']);
-    Route::post('/comments/delete/{comment}', [CommentController::class, 'destroy']);
+    Route::delete('/comments/delete/{comment}', [CommentController::class, 'destroy']);
 });

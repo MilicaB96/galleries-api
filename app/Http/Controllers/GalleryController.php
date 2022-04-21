@@ -40,13 +40,9 @@ class GalleryController extends Controller
     public function store(StoreGalleryRequest $request)
     {
         $gallery = Auth::user()->galleries()->create($request->validated());
-        // ordering images by the order they are submited
-        $order = 1;
         foreach ($request->images as $images) {
             $image_url = $images['image_url'];
-            // $order = $images['order'];
-            $gallery->images()->create(compact('image_url', 'order'));
-            $order++;
+            $gallery->images()->create(compact('image_url'));
         }
         $gallery->images;
         return response()->json($gallery);
@@ -88,13 +84,10 @@ class GalleryController extends Controller
     {
         $gallery->update($request->validated());
         if ($request->images) {
-            // ordering images by the order they are submited
-            $order = 1;
             $gallery->images()->delete();
             foreach ($request->images as $images) {
                 $image_url = $images['image_url'];
-                $gallery->images()->create(compact('image_url', 'order'));
-                $order++;
+                $gallery->images()->create(compact('image_url'));
             }
             info($gallery->images()->get());
         }
