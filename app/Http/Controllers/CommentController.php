@@ -34,6 +34,7 @@ class CommentController extends Controller
         $gallery_id = $gallery['id'];
         $data = array_merge($data, compact('user_id', 'gallery_id'));
         $comment = Comment::create($data);
+        $comment->load('user');
 
         return response()->json($comment);
     }
